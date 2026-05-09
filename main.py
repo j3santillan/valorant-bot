@@ -413,7 +413,7 @@ def build_embed(player: dict, result: dict, line: float, opp: str, maps: int) ->
 async def fetch_all_prizepicks_valorant():
     try:
         url     = "https://api.prizepicks.com/projections"
-        params  = {"league_id": "159", "per_page": "250"}
+        params  = {"league_id": "35", "per_page": "250"}
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
                           "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
