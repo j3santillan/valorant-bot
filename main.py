@@ -7,20 +7,8 @@ import os
 import vlrdevapi as vlr
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
-nest_asyncio.apply()
-
 from aiohttp import web
-
-async def health(request):
-    return web.Response(text="OK")
-
-    async def start_webserver():
-    app = web.Application()
-    app.router.add_get("/", health)
-    runner = web.AppRunner(app)
-    await runner.setup()
-    site = web.TCPSite(runner, "0.0.0.0", int(os.environ.get("PORT", 8080)))
-    await site.start()
+nest_asyncio.apply()
 
 TOKEN            = os.environ.get("TOKEN")
 ALERT_CHANNEL_ID = 1501813399137554434
@@ -28,6 +16,17 @@ ALERT_CHANNEL_ID = 1501813399137554434
 intents = discord.Intents.default()
 intents.message_content = True
 client = discord.Client(intents=intents)
+
+async def health(request):
+    return web.Response(text="OK")
+
+async def start_webserver():
+    app = web.Application()
+    app.router.add_get("/", health)
+    runner = web.AppRunner(app)
+    await runner.setup()
+    site = web.TCPSite(runner, "0.0.0.0", int(os.environ.get("PORT", 8080)))
+    await site.start()
 
 KNOWN_PLAYER_IDS = {
     "jinggg":       2,
