@@ -2,3 +2,4 @@ discord.py
 vlrdevapi
 aiohttp
 beautifulsoup4
+nest_asyncio
