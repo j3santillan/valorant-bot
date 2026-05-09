@@ -1,5 +1,4 @@
 import discord
-import nest_asyncio
 import statistics
 import asyncio
 import aiohttp
@@ -8,7 +7,6 @@ import vlrdevapi as vlr
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 from aiohttp import web
-nest_asyncio.apply()
 
 TOKEN            = os.environ.get("TOKEN")
 ALERT_CHANNEL_ID = 1501813399137554434
@@ -551,7 +549,6 @@ async def run_scanner():
 async def on_ready():
     print("🤖 2026 MATCHUP MASTER IS LIVE!")
     asyncio.ensure_future(run_scanner())
-    asyncio.ensure_future(start_webserver())
 
 @client.event
 async def on_message(message):
@@ -700,4 +697,10 @@ async def on_message(message):
         embed.set_footer(text="2026 VCT Matchup Engine v5.0 | Not financial advice")
         await message.channel.send(embed=embed)
 
-client.run(TOKEN)
+async def main():
+    await asyncio.gather(
+        start_webserver(),
+        client.start(TOKEN),
+    )
+
+asyncio.run(main())
