@@ -14,7 +14,7 @@ from aiohttp import web
 async def health(request):
     return web.Response(text="OK")
 
-async def start_webserver():
+    async def start_webserver():
     app = web.Application()
     app.router.add_get("/", health)
     runner = web.AppRunner(app)
