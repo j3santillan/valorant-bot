@@ -9,6 +9,19 @@ from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 nest_asyncio.apply()
 
+from aiohttp import web
+
+async def health(request):
+    return web.Response(text="OK")
+
+async def start_webserver():
+    app = web.Application()
+    app.router.add_get("/", health)
+    runner = web.AppRunner(app)
+    await runner.setup()
+    site = web.TCPSite(runner, "0.0.0.0", 8080)
+    await site.start()
+
 TOKEN            = os.environ.get("TOKEN")
 ALERT_CHANNEL_ID = 1501813399137554434
 
@@ -539,6 +552,7 @@ async def run_scanner():
 async def on_ready():
     print("🤖 2026 MATCHUP MASTER IS LIVE!")
     asyncio.ensure_future(run_scanner())
+    asyncio.ensure_future(start_webserver())
 
 @client.event
 async def on_message(message):
