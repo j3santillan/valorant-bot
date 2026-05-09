@@ -1,0 +1,4 @@
+discord.py
+vlrdevapi
+aiohttp
+beautifulsoup4
