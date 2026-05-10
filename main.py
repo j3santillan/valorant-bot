@@ -412,18 +412,19 @@ def build_embed(player: dict, result: dict, line: float, opp: str, maps: int) ->
 
 async def fetch_all_prizepicks_valorant():
     try:
-        url     = "https://api.prizepicks.com/projections"
-        params  = {"league_id": "35", "per_page": "250"}
+        api_url = "https://api.prizepicks.com/projections?league_id=35&per_page=250&single_stat=true&game_mode=pickem"
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
                           "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
             "Referer":    "https://app.prizepicks.com/",
             "Accept":     "application/json",
+            "Origin":     "https://app.prizepicks.com",
         }
         async with aiohttp.ClientSession() as session:
-            async with session.get(url, params=params, headers=headers, timeout=aiohttp.ClientTimeout(total=10)) as r:
+            async with session.get(api_url, headers=headers, timeout=aiohttp.ClientTimeout(total=15)) as r:
                 print(f"PrizePicks API status: {r.status}")
                 if r.status != 200:
+                    print(f"PrizePicks error: {await r.text()}")
                     return None
                 data = await r.json()
 
